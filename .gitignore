@@ -1,0 +1,47 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unigore all dirs
+!*/
+
+# Ignore log
+*.log
+
+# Builded objects
+build/
+*.d
+*.o
+*.a
+*.so
+*.dll
+.build
+
+# Configuration file
+*.ini
+*.env
+
+# Ignore ImGui Node Editor
+NodeEditor.json
+
+# Do not push the assets
+assets/
+
+# Unit tests files
+*.gcda
+*.gcno
+
+# Ignore root tests files
+/*.cpp
+/*.hpp
+/*.inl
+/*.h
+/*.c
+
+# Unignore Makefile
+!Makefile
+
+# Unignore AUTHORS
+!AUTHORS
