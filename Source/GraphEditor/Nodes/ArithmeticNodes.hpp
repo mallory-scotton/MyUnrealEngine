@@ -410,6 +410,41 @@ public:
     }
 };
 
+///////////////////////////////////////////////////////////////////////////////
+/// \brief
+///
+///////////////////////////////////////////////////////////////////////////////
+template <typename T, typename U>
+class ArithematicCast : public UNode
+{
+public:
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    ArithematicCast(void)
+        : UNode("", Type::Simple)
+    {
+        AddInputPin(UPinType<T>::type);
+        AddOutputPin(UPinType<U>::type);
+    }
+
+public:
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    /// \param context
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    void Evaluate(UEvaluationContext& context) override
+    {
+        context.template SetPinValue<U>(
+            mOutputs[0],
+            static_cast<U>(context.template GetPinValue<T>(mInputs[0]))
+        );
+    }
+};
+
 } // !namespace _impl
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -425,6 +460,8 @@ using FloatGreaterNode = _impl::ArithmeticGreaterNode<float>;
 using FloatLessNode = _impl::ArithmeticLessNode<float>;
 using FloatGreaterOrEqualsNode = _impl::ArithmeticGreaterOrEqualsNode<float>;
 using FloatLessOrEqualsNode = _impl::ArithmeticLessOrEqualsNode<float>;
+using FloatCastInteger = _impl::ArithematicCast<float, FInt32>;
+using FloatCastInteger64 = _impl::ArithematicCast<float, FInt64>;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -439,6 +476,8 @@ using IntegerGreaterNode = _impl::ArithmeticGreaterNode<FInt32>;
 using IntegerLessNode = _impl::ArithmeticLessNode<FInt32>;
 using IntegerGreaterOrEqualsNode = _impl::ArithmeticGreaterOrEqualsNode<FInt32>;
 using IntegerLessOrEqualsNode = _impl::ArithmeticLessOrEqualsNode<FInt32>;
+using IntegerCastFloat = _impl::ArithematicCast<FInt32, float>;
+using IntegerCastInteger64 = _impl::ArithematicCast<FInt32, FInt64>;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -453,5 +492,7 @@ using Integer64GreaterNode = _impl::ArithmeticGreaterNode<FInt64>;
 using Integer64LessNode = _impl::ArithmeticLessNode<FInt64>;
 using Integer64GreaterOrEqualsNode = _impl::ArithmeticGreaterOrEqualsNode<FInt64>;
 using Integer64LessOrEqualsNode = _impl::ArithmeticLessOrEqualsNode<FInt64>;
+using Integer64CastFloat = _impl::ArithematicCast<FInt64, float>;
+using Integer64CastInteger = _impl::ArithematicCast<FInt64, FInt32>;
 
 } // !namespace TKD::Nodes

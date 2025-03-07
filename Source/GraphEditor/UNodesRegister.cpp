@@ -37,6 +37,8 @@ FUint64 UNodesRegister::RegisterBuiltIn(void)
     mBuiltInCount += Register<Nodes::FloatGreaterNode>("Float.Greater");
     mBuiltInCount += Register<Nodes::FloatLessOrEqualsNode>("Float.LessOrEquals");
     mBuiltInCount += Register<Nodes::FloatGreaterOrEqualsNode>("Float.GreaterOrEquals");
+    mBuiltInCount += Register<Nodes::FloatCastInteger>("Float.Cast.Integer");
+    mBuiltInCount += Register<Nodes::FloatCastInteger64>("Float.Cast.Integer64");
 
     // Register Integer arithmetic nodes
     mBuiltInCount += Register<Nodes::IntegerAddNode>("Integer.Add");
@@ -49,6 +51,8 @@ FUint64 UNodesRegister::RegisterBuiltIn(void)
     mBuiltInCount += Register<Nodes::IntegerGreaterNode>("Integer.Greater");
     mBuiltInCount += Register<Nodes::IntegerLessOrEqualsNode>("Integer.LessOrEquals");
     mBuiltInCount += Register<Nodes::IntegerGreaterOrEqualsNode>("Integer.GreaterOrEquals");
+    mBuiltInCount += Register<Nodes::IntegerCastFloat>("Integer.Cast.Float");
+    mBuiltInCount += Register<Nodes::IntegerCastInteger64>("Integer.Cast.Integer64");
 
     // Register Integer64 arithmetic nodes
     mBuiltInCount += Register<Nodes::Integer64AddNode>("Integer64.Add");
@@ -61,6 +65,8 @@ FUint64 UNodesRegister::RegisterBuiltIn(void)
     mBuiltInCount += Register<Nodes::Integer64GreaterNode>("Integer64.Greater");
     mBuiltInCount += Register<Nodes::Integer64LessOrEqualsNode>("Integer64.LessOrEquals");
     mBuiltInCount += Register<Nodes::Integer64GreaterOrEqualsNode>("Integer64.GreaterOrEquals");
+    mBuiltInCount += Register<Nodes::Integer64CastFloat>("Integer64.Cast.Float");
+    mBuiltInCount += Register<Nodes::Integer64CastInteger>("Integer64.Cast.Integer");
 
     // Register Control flow nodes
     mBuiltInCount += Register<Nodes::BranchNode>("Flow.Branch");
