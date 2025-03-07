@@ -30,7 +30,7 @@ CXXFLAGS			=	-std=c++20 -Wall -Wextra \
 						-lvorbisfile \
 						-lvorbisenc
 
-TARGET				=	GameEngine
+TARGET				=	MyUnrealEngine
 
 ###############################################################################
 ## Metadata
