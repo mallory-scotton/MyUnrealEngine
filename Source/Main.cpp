@@ -21,11 +21,14 @@ int main(void)
 {
     sf::RenderWindow window(sf::VideoMode({1200, 800}), "GameEngine");
     sf::Clock clock;
+    sf::Image icon("Assets/logo.png");
 
     if (!ImGui::SFML::Init(window)) {
         std::cerr << "Coudl'nt initialize ImGui" << std::endl;
         return (EXIT_FAILURE);
     }
+
+    window.setIcon(icon);
 
     ImGuiWindowFlags wflags =
         ImGuiWindowFlags_NoBringToFrontOnFocus |
