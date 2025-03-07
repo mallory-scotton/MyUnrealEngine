@@ -1,0 +1,254 @@
+///////////////////////////////////////////////////////////////////////////////
+// Dependencies
+///////////////////////////////////////////////////////////////////////////////
+#include "Utils/Utils.hpp"
+#include "GraphEditor/UGraph.hpp"
+#include "GraphEditor/UNodesRegister.hpp"
+#include <imgui.h>
+#include <imgui_stdlib.h>
+#include <imgui_internal.h>
+#include <imgui_node_editor.h>
+#include <cctype>
+
+///////////////////////////////////////////////////////////////////////////////
+// Forward namespaces
+///////////////////////////////////////////////////////////////////////////////
+namespace en = ax::NodeEditor;
+
+///////////////////////////////////////////////////////////////////////////////
+// Namespace TKD
+///////////////////////////////////////////////////////////////////////////////
+namespace TKD
+{
+
+///////////////////////////////////////////////////////////////////////////////
+UGraph::UGraph(void)
+    : mCreating(false)
+{}
+
+///////////////////////////////////////////////////////////////////////////////
+TSharedPtr<UPin> UGraph::FindPin(UPin::ID id)
+{
+    for (auto& node : mNodes) {
+        for (auto& pin : node->GetInputs()) {
+            if (pin->GetID() == id) {
+                return (pin);
+            }
+        }
+        for (auto& pin : node->GetOutputs()) {
+            if (pin->GetID() == id) {
+                return (pin);
+            }
+        }
+    }
+
+    return (nullptr);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::AddNode(TSharedPtr<UNode> node)
+{
+    if (!node) {
+        return;
+    }
+
+    for (auto& pin : node->GetInputs()) {
+        pin->SetOwner(node);
+    }
+    for (auto& pin : node->GetOutputs()) {
+        pin->SetOwner(node);
+    }
+
+    mNodes.push_back(node);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::RemoveNode(TSharedPtr<UNode> node)
+{
+    auto it = std::find(mNodes.begin(), mNodes.end(), node);
+    if (it != mNodes.end()) {
+        mNodes.erase(it);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::RemoveNode(UNode::ID id)
+{
+    auto it = std::find_if(mNodes.begin(), mNodes.end(),
+        [id](const TSharedPtr<UNode>& node) {
+            return (node->GetID() == id);
+        });
+    if (it != mNodes.end()) {
+        mNodes.erase(it);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::SetLink(TSharedPtr<UPin> source, TSharedPtr<UPin> target)
+{
+    TSharedPtr<ULink> link = std::make_shared<ULink>(source, target);
+    link->Initialize();
+    mLinks.push_back(link);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::RemoveLink(TSharedPtr<ULink> link)
+{
+    auto it = std::find(mLinks.begin(), mLinks.end(), link);
+    if (it != mLinks.end()) {
+        link->GetSource()->RemoveLink(link);
+        link->GetTarget()->RemoveLink(link);
+        mLinks.erase(it);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::RemoveLink(ULink::ID id)
+{
+    auto it = std::find_if(mLinks.begin(), mLinks.end(),
+        [id](const TSharedPtr<ULink>& link) {
+            return (link->GetID() == id);
+        });
+    if (it != mLinks.end()) {
+        mLinks.erase(it);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::HandleCreate(void)
+{
+    if (en::BeginCreate(ImColor(255, 255, 255), 2.f)) {
+        mCreating = true;
+        UPin::ID sourceID = 0, targetID = 0;
+
+        if (en::QueryNewLink(&sourceID, &targetID)) {
+            TSharedPtr<UPin> source = FindPin(sourceID);
+            TSharedPtr<UPin> target = FindPin(targetID);
+
+            if (source->GetKind() == UPin::Kind::Input) {
+                std::swap(source, target);
+                std::swap(sourceID, targetID);
+            }
+
+            if (UPin::CanConnectTo(source, target)) {
+                for (auto& link : target->GetLinks()) {
+                    auto locked = link.lock();
+                    if (locked && source->GetType() != UPin::Type::Flow) {
+                        RemoveLink(locked);
+                    }
+                }
+                SetLink(source, target);
+            }
+        }
+    } else {
+        mCreating = false;
+    }
+    en::EndCreate();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::HandleDelete(void)
+{
+    if (en::BeginDelete()) {
+        UNode::ID nID;
+        while (en::QueryDeletedNode(&nID)) {
+            if (en::AcceptDeletedItem()) {
+                RemoveNode(nID);
+            }
+        }
+
+        ULink::ID lID;
+        while (en::QueryDeletedLink(&lID)) {
+            if (en::AcceptDeletedItem()) {
+                RemoveLink(lID);
+            }
+        }
+    }
+    en::EndDelete();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::Render(void)
+{
+    en::Begin("Graph Editor");
+
+    for (auto& node : mNodes) {
+        node->Render();
+    }
+
+    for (auto& link : mLinks) {
+        en::Link(
+            link->GetID(),
+            link->GetSource()->GetID(),
+            link->GetTarget()->GetID(),
+            link->GetSource()->GetColor(),
+            2.0f
+        );
+    }
+
+    HandleCreate();
+    HandleDelete();
+
+    auto currentPosition = ImGui::GetMousePos();
+
+    en::Suspend();
+
+    if (en::ShowBackgroundContextMenu()) {
+        ImGui::OpenPopup("CreateNewNode");
+        if (mPopupOpened == false) {
+            constexpr float gridSize = 16.0f;
+            float snapX = std::floor(currentPosition.x / gridSize + 0.5f) * gridSize;
+            float snapY = std::floor(currentPosition.y / gridSize + 0.5f) * gridSize;
+            mPosition = ImVec2(snapX, snapY);
+            mPopupOpened = true;
+            mSearch.clear();
+        }
+    } else {
+        mPopupOpened = false;
+    }
+
+    en::Resume();
+
+    en::Suspend();
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 8));
+
+    if (ImGui::BeginPopup("CreateNewNode")) {
+        ImGui::SetKeyboardFocusHere();
+        ImGui::InputText("##CreateNodeSearch", &mSearch);
+        ImGui::Separator();
+
+        TVector<FString> names = UNodesRegister::GetNames();
+
+        TVector<FString> tokens = Tokenize(ToLower(Trim(mSearch)));
+
+        for (const auto& name : names) {
+            bool matchToken = true;
+
+            std::string nameLower = ToLower(name);
+
+            for (const auto& token : tokens) {
+                if (nameLower.find(token) == FString::npos) {
+                    matchToken = false;
+                    break;
+                }
+            }
+
+            if (matchToken) {
+                if (ImGui::MenuItem(name.c_str())) {
+                    AddNode(UNodesRegister::Create(name));
+                    en::SetNodePosition(mNodes.back()->GetID(), mPosition);
+                }
+            }
+        }
+
+        ImGui::EndPopup();
+    }
+
+    ImGui::PopStyleVar();
+
+    en::Resume();
+
+    en::End();
+}
+
+} // !namespace TKD
