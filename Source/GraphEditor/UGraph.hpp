@@ -143,7 +143,7 @@ public:
     ///
     ///////////////////////////////////////////////////////////////////////////
     template <typename EventNodeType>
-    void Execute(UEvaluationContext& context)
+    void Execute(UEvaluationContext& context, float deltaSeconds = 0.f)
     {
         TSharedPtr<EventNodeType> eventNode = nullptr;
 
@@ -156,6 +156,10 @@ public:
 
         if (!eventNode) {
             return;
+        }
+
+        if (eventNode->GetName() == "Event Tick") {
+            context.SetPinValue<float>(eventNode->GetInputs()[0], deltaSeconds);
         }
 
         context.AddToEvaluationQueue(eventNode);
