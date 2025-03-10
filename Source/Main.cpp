@@ -4,6 +4,7 @@
 #include "Utils/Types.hpp"
 #include "GraphEditor/UClass.hpp"
 #include "GraphEditor/Nodes/ArithmeticNodes.hpp"
+#include "GraphEditor/Nodes/EventNodes.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
