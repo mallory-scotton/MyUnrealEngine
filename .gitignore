@@ -45,3 +45,6 @@ assets/
 
 # Unignore AUTHORS
 !AUTHORS
+
+Temporary/
+Build/
