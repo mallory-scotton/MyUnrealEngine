@@ -168,7 +168,7 @@ void UGraph::HandleDelete(void)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void UGraph::Render(void)
+void UGraph::RenderGraphEditor(void)
 {
     en::Begin("Graph Editor");
 
@@ -196,9 +196,9 @@ void UGraph::Render(void)
     if (en::ShowBackgroundContextMenu()) {
         ImGui::OpenPopup("CreateNewNode");
         if (mPopupOpened == false) {
-            constexpr float gridSize = 16.0f;
-            float snapX = std::floor(currentPosition.x / gridSize + 0.5f) * gridSize;
-            float snapY = std::floor(currentPosition.y / gridSize + 0.5f) * gridSize;
+            constexpr float size = 16.0f;
+            float snapX = std::floor(currentPosition.x / size + 0.5f) * size;
+            float snapY = std::floor(currentPosition.y / size + 0.5f) * size;
             mPosition = ImVec2(snapX, snapY);
             mPopupOpened = true;
             mSearch.clear();
@@ -249,6 +249,57 @@ void UGraph::Render(void)
     en::Resume();
 
     en::End();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::Render(void)
+{
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+
+    ImGui::Begin("Graph Editor", nullptr,
+        ImGuiWindowFlags_NoScrollbar |
+        ImGuiWindowFlags_NoScrollWithMouse |
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoTitleBar
+    );
+
+    const float propertyBarWidth = 400.0f;
+
+    // Change the property bar color to rgb(21, 21, 21)
+    float c21 = 21.f / 255.f;
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(c21, c21, c21, 1.0f));
+
+    ImGui::BeginChild("PropertyBar", ImVec2(propertyBarWidth, -1));
+
+    // Changing the header background color rgb(47, 47, 47)
+    float c47 = 47.f / 255.f;
+    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(c47, c47, c47, 1.0f));
+
+    if (ImGui::CollapsingHeader("Graphs", ImGuiTreeNodeFlags_DefaultOpen)) {
+    }
+    
+    
+    if (ImGui::CollapsingHeader("Functions", ImGuiTreeNodeFlags_DefaultOpen)) {
+    }
+
+    if (ImGui::CollapsingHeader("Variables", ImGuiTreeNodeFlags_DefaultOpen)) {
+    }
+
+    ImGui::PopStyleColor();
+
+    ImGui::EndChild();
+
+    ImGui::PopStyleColor();
+
+    ImGui::SameLine();
+
+    ImGui::BeginChild("NodeGraph", ImVec2(0, 0), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+
+    RenderGraphEditor();
+
+    ImGui::EndChild();
+    ImGui::End();
 }
 
 } // !namespace TKD
