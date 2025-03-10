@@ -278,8 +278,7 @@ void UGraph::Render(void)
 
     if (ImGui::CollapsingHeader("Graphs", ImGuiTreeNodeFlags_DefaultOpen)) {
     }
-    
-    
+
     if (ImGui::CollapsingHeader("Functions", ImGuiTreeNodeFlags_DefaultOpen)) {
     }
 

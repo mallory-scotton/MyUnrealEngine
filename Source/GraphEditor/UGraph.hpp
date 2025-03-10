@@ -139,7 +139,8 @@ public:
         TSharedPtr<EventNodeType> eventNode = nullptr;
 
         for (auto& node : mNodes) {
-            if (eventNode = std::dynamic_pointer_cast<EventNodeType>(node)) {
+            eventNode = std::dynamic_pointer_cast<EventNodeType>(node);
+            if (eventNode) {
                 break;
             }
         }
@@ -148,7 +149,40 @@ public:
             return;
         }
 
-        // TODO: Add execution logic
+        context.AddToEvaluationQueue(eventNode);
+
+        while (!context.IsQueueEmpty()) {
+            auto node = context.GetNextNode().lock();
+
+            if (!node) {
+                continue;
+            }
+
+            if (!context.IsEvaluated(node)) {
+                node->Evaluate(context);
+                context.MarkAsEvaluated(node);
+            }
+
+            for (auto& pin : node->GetOutputs()) {
+                if (
+                    pin->GetType() != UPin::Type::Flow ||
+                    context.GetPinValue<bool>(pin) == false
+                ) {
+                    continue;
+                }
+
+                for (auto& wlink : pin->GetLinks()) {
+                    TSharedPtr<ULink> link = wlink.lock();
+                    if (!link) {
+                        continue;
+                    }
+
+                    TSharedPtr<UPin> target = link->GetTarget();
+
+                    context.AddToEvaluationQueue(target->GetOwner());
+                }
+            }
+        }
     }
 };
 
