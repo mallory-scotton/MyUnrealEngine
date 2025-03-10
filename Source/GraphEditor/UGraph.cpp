@@ -256,16 +256,6 @@ void UGraph::RenderGraphEditor(void)
 ///////////////////////////////////////////////////////////////////////////////
 void UGraph::Render(void)
 {
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-
-    ImGui::Begin("Graph Editor", nullptr,
-        ImGuiWindowFlags_NoScrollbar |
-        ImGuiWindowFlags_NoScrollWithMouse |
-        ImGuiWindowFlags_NoResize |
-        ImGuiWindowFlags_NoTitleBar
-    );
-
     const float propertyBarWidth = 400.0f;
 
     // Change the property bar color to rgb(21, 21, 21)
@@ -300,7 +290,6 @@ void UGraph::Render(void)
     RenderGraphEditor();
 
     ImGui::EndChild();
-    ImGui::End();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

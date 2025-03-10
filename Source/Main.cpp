@@ -60,7 +60,18 @@ int main(void)
 
         ImGui::Begin("Main", nullptr, wflags);
 
-        myClass.GetGraph()->Render();
+        ImGui::BeginTabBar("TabBar");
+
+        if (ImGui::BeginTabItem("Play")) {
+            ImGui::EndTabItem();
+        }
+
+        if (ImGui::BeginTabItem("Graph")) {
+            myClass.GetGraph()->Render();
+            ImGui::EndTabItem();
+        }
+
+        ImGui::EndTabBar();
 
         ImGui::End();
 
