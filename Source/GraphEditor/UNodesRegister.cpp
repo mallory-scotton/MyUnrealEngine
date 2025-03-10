@@ -5,6 +5,7 @@
 #include "GraphEditor/UEvaluationContext.hpp"
 #include "GraphEditor/Nodes/ArithmeticNodes.hpp"
 #include "GraphEditor/Nodes/ControlFlow.hpp"
+#include "GraphEditor/Nodes/EventNodes.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace TKD
@@ -70,6 +71,11 @@ FUint64 UNodesRegister::RegisterBuiltIn(void)
 
     // Register Control flow nodes
     mBuiltInCount += Register<Nodes::BranchNode>("Flow.Branch");
+
+    // Register Events nodes
+    mBuiltInCount += Register<Nodes::BeginPlayNode>("Event.BeginPlay");
+    mBuiltInCount += Register<Nodes::EndPlayNode>("Event.EndPlay");
+    mBuiltInCount += Register<Nodes::TickNode>("Event.Tick");
 
     return (mBuiltInCount);
 }
