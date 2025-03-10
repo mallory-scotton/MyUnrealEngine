@@ -1,0 +1,70 @@
+///////////////////////////////////////////////////////////////////////////////
+// Dependencies
+///////////////////////////////////////////////////////////////////////////////
+#include "Utils/SaveArchive.hpp"
+#include "Utils/Maths.hpp"
+#include <string.h>
+
+///////////////////////////////////////////////////////////////////////////////
+// Namespace TKD
+///////////////////////////////////////////////////////////////////////////////
+namespace TKD
+{
+
+///////////////////////////////////////////////////////////////////////////////
+SaveArchive::SaveArchive(const FString& filename)
+    : mFilename(filename)
+    , mPosition(0)
+{
+    mIsSaving = true;
+    mAllowSeek = true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+SaveArchive::~SaveArchive()
+{
+    if (mData.size() > 0) {
+        FOfStream file(mFilename, std::ios::binary);
+        if (file.is_open()) {
+            file.write(
+                reinterpret_cast<const char*>(mData.data()),
+                mData.size()
+            );
+            file.close();
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SaveArchive::Seek(FUint64 position)
+{
+    mPosition = Math::Min(position, mData.size());
+}
+
+///////////////////////////////////////////////////////////////////////////////
+FUint64 SaveArchive::Tell(void) const
+{
+    return (mPosition);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+FUint64 SaveArchive::TotalSize(void) const
+{
+    return (mData.size());
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SaveArchive::Serialize(void* data, FUint64 length)
+{
+    if (length == 0) {
+        return;
+    }
+
+    if (mPosition + length > mData.size()) {
+        mData.resize(mPosition + length);
+    }
+    ::memcpy(&mData[mPosition], data, length);
+    mPosition += length;
+}
+
+} // !namespace TKD
