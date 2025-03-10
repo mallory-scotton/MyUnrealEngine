@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
-#include "Utils/Utils.hpp"
+#include "Utils/Strings.hpp"
 #include "GraphEditor/UGraph.hpp"
 #include "GraphEditor/UNodesRegister.hpp"
 #include <imgui.h>
@@ -219,12 +219,14 @@ void UGraph::RenderGraphEditor(void)
 
         TVector<FString> names = UNodesRegister::GetNames();
 
-        TVector<FString> tokens = Tokenize(ToLower(Trim(mSearch)));
+        TVector<FString> tokens = String::Tokenize(
+            String::ToLower(String::Trim(mSearch))
+        );
 
         for (const auto& name : names) {
             bool matchToken = true;
 
-            std::string nameLower = ToLower(name);
+            std::string nameLower = String::ToLower(name);
 
             for (const auto& token : tokens) {
                 if (nameLower.find(token) == FString::npos) {
