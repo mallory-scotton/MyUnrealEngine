@@ -303,4 +303,19 @@ void UGraph::Render(void)
     ImGui::End();
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::Serialize(UArchive& archive)
+{
+    if (archive.IsLoading()) {
+        // TODO: Add loading part
+    } else if (archive.IsSaving()) {
+        // TODo: Add the saving part
+        FUint64 size = mNodes.size();
+        archive << size;
+        for (auto& node : mNodes) {
+            node->Serialize(archive);
+        }
+    }
+}
+
 } // !namespace TKD

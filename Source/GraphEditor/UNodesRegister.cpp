@@ -102,7 +102,11 @@ TSharedPtr<UNode> UNodesRegister::Create(const FString& name)
         return (nullptr);
     }
 
-    return (it->second());
+    TSharedPtr<UNode> node = it->second();
+
+    node->SetRegister(name);
+
+    return (node);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

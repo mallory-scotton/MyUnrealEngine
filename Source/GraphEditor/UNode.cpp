@@ -97,6 +97,12 @@ const UNode::PinList& UNode::GetOutputs(void) const
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void UNode::SetRegister(const FString& reg)
+{
+    mRegister = reg;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void UNode::Render(void)
 {
     sBuilder.Begin(mID);
@@ -131,6 +137,21 @@ void UNode::Render(void)
     // TODO: Add the possibility to add new pin
 
     sBuilder.End();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UNode::Serialize(UArchive& archive)
+{
+    if (archive.IsLoading()) {
+        return;
+    }
+    std::cout << "Getting position" << std::endl;
+    ImVec2 position = en::GetNodePosition(mID);
+
+    std::cout << "Registering name" << std::endl;
+    archive << mRegister;
+    std::cout << "Registering position" << std::endl;
+    archive << position;
 }
 
 } // !namespace TKD

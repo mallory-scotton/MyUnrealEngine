@@ -12,8 +12,8 @@ namespace TKD
 {
 
 ///////////////////////////////////////////////////////////////////////////////
-LoadArchive::LoadArchive(const TVector<FUint8>& data)
-    : Archive()
+ULoadArchive::ULoadArchive(const TVector<FUint8>& data)
+    : UArchive()
     , mData(data)
     , mPosition(0)
 {
@@ -22,25 +22,25 @@ LoadArchive::LoadArchive(const TVector<FUint8>& data)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void LoadArchive::Seek(FUint64 position)
+void ULoadArchive::Seek(FUint64 position)
 {
     mPosition = Math::Min(position, mData.size());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-FUint64 LoadArchive::Tell(void) const
+FUint64 ULoadArchive::Tell(void) const
 {
     return (mPosition);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-FUint64 LoadArchive::TotalSize(void) const
+FUint64 ULoadArchive::TotalSize(void) const
 {
     return (mData.size());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void LoadArchive::Serialize(void* data, FUint64 length)
+void ULoadArchive::Serialize(void* data, FUint64 length)
 {
     if (length == 0 || mPosition >= mData.size()) {
         return;

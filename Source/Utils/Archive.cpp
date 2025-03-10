@@ -10,7 +10,7 @@ namespace TKD
 {
 
 ///////////////////////////////////////////////////////////////////////////////
-Archive::Archive(void)
+UArchive::UArchive(void)
     : mVersion(0)
     , mIsLoading(false)
     , mIsSaving(false)
@@ -18,7 +18,7 @@ Archive::Archive(void)
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
-Archive& Archive::operator<<(FString& value)
+UArchive& UArchive::operator<<(FString& value)
 {
     FUint64 length = value.length();
 
@@ -37,55 +37,62 @@ Archive& Archive::operator<<(FString& value)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool Archive::IsLoading(void) const
+UArchive& UArchive::operator<<(ImVec2& value)
+{
+    *this << value.x << value.y;
+    return (*this);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool UArchive::IsLoading(void) const
 {
     return (mIsLoading);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool Archive::IsSaving(void) const
+bool UArchive::IsSaving(void) const
 {
     return (mIsSaving);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool Archive::IsAllowingSeek(void) const
+bool UArchive::IsAllowingSeek(void) const
 {
     return (mAllowSeek);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-FInt32 Archive::GetArchiveVersion(void) const
+FInt32 UArchive::GetArchiveVersion(void) const
 {
     return (mVersion);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Archive::SetArchiveVersion(FInt32 version)
+void UArchive::SetArchiveVersion(FInt32 version)
 {
     mVersion = version;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Archive::Seek(FUint64 position)
+void UArchive::Seek(FUint64 position)
 {
     (void)position;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-FUint64 Archive::Tell(void) const
+FUint64 UArchive::Tell(void) const
 {
     return (0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-FUint64 Archive::TotalSize(void) const
+FUint64 UArchive::TotalSize(void) const
 {
     return (0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Archive::Serialize(void* data, FUint64 length)
+void UArchive::Serialize(void* data, FUint64 length)
 {
     (void)data;
     (void)length;

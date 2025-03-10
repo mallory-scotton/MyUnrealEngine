@@ -12,7 +12,7 @@ namespace TKD
 {
 
 ///////////////////////////////////////////////////////////////////////////////
-SaveArchive::SaveArchive(const FString& filename)
+USaveArchive::USaveArchive(const FString& filename)
     : mFilename(filename)
     , mPosition(0)
 {
@@ -21,7 +21,7 @@ SaveArchive::SaveArchive(const FString& filename)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-SaveArchive::~SaveArchive()
+USaveArchive::~USaveArchive()
 {
     if (mData.size() > 0) {
         FOfStream file(mFilename, std::ios::binary);
@@ -36,25 +36,25 @@ SaveArchive::~SaveArchive()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SaveArchive::Seek(FUint64 position)
+void USaveArchive::Seek(FUint64 position)
 {
     mPosition = Math::Min(position, mData.size());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-FUint64 SaveArchive::Tell(void) const
+FUint64 USaveArchive::Tell(void) const
 {
     return (mPosition);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-FUint64 SaveArchive::TotalSize(void) const
+FUint64 USaveArchive::TotalSize(void) const
 {
     return (mData.size());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SaveArchive::Serialize(void* data, FUint64 length)
+void USaveArchive::Serialize(void* data, FUint64 length)
 {
     if (length == 0) {
         return;

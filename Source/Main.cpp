@@ -42,12 +42,22 @@ int main(void)
 
     TKD::UClass myClass("MyClass");
 
+    TKD::USaveArchive archive("graph.uassets");
+
+    bool s = false;
+
     while (window.isOpen()) {
         while (auto event = window.pollEvent()) {
             ImGui::SFML::ProcessEvent(window, *event);
 
             if (event->is<sf::Event::Closed>()) {
                 window.close();
+            }
+
+            if (auto key = event->getIf<sf::Event::KeyReleased>()) {
+                if (key->code == sf::Keyboard::Key::S) {
+                    s = true;
+                }
             }
         }
 
@@ -63,6 +73,11 @@ int main(void)
         myClass.GetGraph()->Render();
 
         ImGui::End();
+
+        if (s) {
+            myClass.GetGraph()->Serialize(archive);
+            s = false;
+        }
 
         en::SetCurrentEditor(nullptr);
 
