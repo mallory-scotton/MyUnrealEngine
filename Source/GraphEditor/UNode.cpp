@@ -102,7 +102,7 @@ void UNode::Render(void)
     sBuilder.Begin(mID);
 
     if (mType != Type::Simple) {
-        sBuilder.Header();
+        sBuilder.Header(mColor);
         ImGui::Spring(0);
         ImGui::TextUnformatted(mName.c_str());
         ImGui::Spring(1);
