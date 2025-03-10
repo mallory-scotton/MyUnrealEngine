@@ -57,9 +57,9 @@ public:
         }
 
         for (const auto& weakLink : pin->GetLinks()) {
-            TSharedPtr<ULink> link = nullptr;
+            TSharedPtr<ULink> link = weakLink.lock();
 
-            if (!(link = weakLink.lock())) {
+            if (!link) {
                 continue;
             }
 

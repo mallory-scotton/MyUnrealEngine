@@ -2,6 +2,7 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "GraphEditor/UEvaluationContext.hpp"
+#include "Utils/Types.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace TKD
@@ -12,6 +13,24 @@ namespace TKD
 ///////////////////////////////////////////////////////////////////////////////
 void UEvaluationContext::AddToEvaluationQueue(TWeakPtr<UNode> node)
 {
+    for (auto& pin : node.lock()->GetInputs()) {
+        if (pin->GetType() == UPin::Type::Flow) {
+            continue;
+        }
+        for (auto& weakLink : pin->GetLinks()) {
+            auto link = weakLink.lock();
+
+            if (!link) {
+                continue;
+            }
+
+            TSharedPtr<UNode> target = link->GetSource()->GetOwner();
+
+            if (target && !IsEvaluated(target)) {
+                AddToEvaluationQueue(target);
+            }
+        }
+    }
     mEvaluationQueue.push(node);
 }
 
