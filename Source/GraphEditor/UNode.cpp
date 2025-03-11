@@ -142,12 +142,11 @@ void UNode::Render(void)
 ///////////////////////////////////////////////////////////////////////////////
 void UNode::Serialize(UArchive& archive)
 {
-    if (archive.IsLoading()) {
+    if (!archive.IsSaving()) {
         return;
     }
     ImVec2 position = en::GetNodePosition(mID);
-    archive << mRegister;
-    archive << position;
+    archive << mRegister << position;
 }
 
 } // !namespace UEB
