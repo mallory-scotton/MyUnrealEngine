@@ -42,12 +42,20 @@ int main(void)
 
     UEB::UClass myClass("MyClass");
 
+    bool loadGraph = false;
+    bool saveGraph = false;
+
     while (window.isOpen()) {
         while (auto event = window.pollEvent()) {
             ImGui::SFML::ProcessEvent(window, *event);
 
             if (event->is<sf::Event::Closed>()) {
                 window.close();
+            }
+
+            if (auto key = event->getIf<sf::Event::KeyReleased>()) {
+                if (key->code == sf::Keyboard::Key::L) loadGraph = true;
+                if (key->code == sf::Keyboard::Key::S) saveGraph = true;
             }
         }
 
@@ -59,6 +67,17 @@ int main(void)
         ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 
         ImGui::Begin("Main", nullptr, wflags);
+
+        if (loadGraph) {
+            UEB::ULoadArchive archive("MyClass.uassets");
+            myClass.GetGraph()->Serialize(archive);
+            loadGraph = false;
+        }
+        if (saveGraph) {
+            UEB::USaveArchive archive("MyClass.uassets");
+            myClass.GetGraph()->Serialize(archive);
+            saveGraph = false;
+        }
 
         ImGui::BeginTabBar("TabBar");
 
