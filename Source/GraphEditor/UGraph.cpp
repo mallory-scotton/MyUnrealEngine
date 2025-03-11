@@ -296,14 +296,33 @@ void UGraph::Render(void)
 void UGraph::Serialize(UArchive& archive)
 {
     if (archive.IsLoading()) {
-        // TODO: Add loading part
+        mNodes.clear();
+        mLinks.clear();
+
+        FUint64 size = 0;
+        archive << size;
+
+        for (FUint64 i = 0; i < size; i++) {
+            FString nodeName = "";
+            ImVec2 nodePosition = ImVec2(0, 0);
+
+            archive << nodeName << nodePosition;
+
+            AddNode(UNodesRegister::Create(nodeName));
+            en::SetNodePosition(mNodes.back()->GetID(), nodePosition);
+        }
+
+        // TODO: Load the links
+
     } else if (archive.IsSaving()) {
-        // TODo: Add the saving part
+
         FUint64 size = mNodes.size();
         archive << size;
         for (auto& node : mNodes) {
             node->Serialize(archive);
         }
+
+        // TODO: Save the links
     }
 }
 
