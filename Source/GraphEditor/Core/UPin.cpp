@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
-#include "GraphEditor/UPin.hpp"
-#include "GraphEditor/UNode.hpp"
-#include "GraphEditor/UNodeBuilder.hpp"
-#include "GraphEditor/ULink.hpp"
+#include "GraphEditor/Core/UPin.hpp"
+#include "GraphEditor/Core/UNode.hpp"
+#include "GraphEditor/Core/UNodeBuilder.hpp"
+#include "GraphEditor/Core/ULink.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui_node_editor.h>

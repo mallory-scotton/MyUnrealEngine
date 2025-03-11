@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
-#include "GraphEditor/UNodesRegister.hpp"
-#include "GraphEditor/UEvaluationContext.hpp"
+#include "GraphEditor/Core/UNodesRegister.hpp"
+#include "GraphEditor/Core/UEvaluationContext.hpp"
 #include "GraphEditor/Nodes/ArithmeticNodes.hpp"
 #include "GraphEditor/Nodes/ControlFlow.hpp"
 #include "GraphEditor/Nodes/EventNodes.hpp"

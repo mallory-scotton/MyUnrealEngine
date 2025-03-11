@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
-#include "GraphEditor/UNode.hpp"
-#include "GraphEditor/UEvaluationContext.hpp"
-#include "GraphEditor/UNodeBuilder.hpp"
+#include "GraphEditor/Core/UNode.hpp"
+#include "GraphEditor/Core/UEvaluationContext.hpp"
+#include "GraphEditor/Core/UNodeBuilder.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui_node_editor.h>

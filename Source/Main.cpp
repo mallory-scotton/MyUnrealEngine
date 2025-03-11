@@ -1,10 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
-#include "Utils.hpp"
-#include "GraphEditor/UClass.hpp"
-#include "GraphEditor/Nodes/ArithmeticNodes.hpp"
-#include "GraphEditor/Nodes/EventNodes.hpp"
+#include "Utils/Utils.hpp"
+#include "GraphEditor/GraphEditor.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>

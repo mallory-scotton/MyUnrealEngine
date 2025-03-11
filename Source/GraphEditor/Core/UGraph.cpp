@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
-#include "Utils/Strings.hpp"
-#include "GraphEditor/UGraph.hpp"
-#include "GraphEditor/UNodesRegister.hpp"
+#include "Utils/Strings/Strings.hpp"
+#include "GraphEditor/Core/UGraph.hpp"
+#include "GraphEditor/Core/UNodesRegister.hpp"
 #include <imgui.h>
 #include <imgui_stdlib.h>
 #include <imgui_internal.h>
@@ -285,7 +285,8 @@ void UGraph::Render(void)
 
     ImGui::SameLine();
 
-    ImGui::BeginChild("NodeGraph", ImVec2(0, 0), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+    ImGui::BeginChild("NodeGraph", ImVec2(0, 0), false,
+        ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
     RenderGraphEditor();
 

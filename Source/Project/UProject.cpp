@@ -2,10 +2,10 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "Project/UProject.hpp"
-#include "Utils/Filesystem.hpp"
-#include "Utils/Archive.hpp"
-#include "Utils/SaveArchive.hpp"
-#include "Config.hpp"
+#include "Utils/Filesystem/Filesystem.hpp"
+#include "Utils/Archive/Archive.hpp"
+#include "Utils/Archive/SaveArchive.hpp"
+#include "Config/Config.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace UEB
