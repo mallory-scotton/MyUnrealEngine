@@ -40,7 +40,7 @@ int main(void)
 
     en::EditorContext* context = en::CreateEditor();
 
-    TKD::UClass myClass("MyClass");
+    UEB::UClass myClass("MyClass");
 
     while (window.isOpen()) {
         while (auto event = window.pollEvent()) {

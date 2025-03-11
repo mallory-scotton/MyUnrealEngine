@@ -10,9 +10,9 @@
 #include "GraphEditor/Nodes/Templates.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
-// Namespace TKD::Nodes
+// Namespace UEB::Nodes
 ///////////////////////////////////////////////////////////////////////////////
-namespace TKD::Nodes
+namespace UEB::Nodes
 {
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -495,4 +495,4 @@ using Integer64LessOrEqualsNode = _impl::ArithmeticLessOrEqualsNode<FInt64>;
 using Integer64CastFloat = _impl::ArithematicCast<FInt64, float>;
 using Integer64CastInteger = _impl::ArithematicCast<FInt64, FInt32>;
 
-} // !namespace TKD::Nodes
+} // !namespace UEB::Nodes
