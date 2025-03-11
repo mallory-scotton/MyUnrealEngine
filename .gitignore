@@ -51,4 +51,4 @@ Build/
 
 # Ignore the editor generated project
 *.uproject
-*.uasset
+*.uassets
