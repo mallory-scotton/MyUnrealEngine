@@ -147,6 +147,19 @@ bool RemoveDirectory(const FPath& path)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+TVector<FUint8> ReadBinaryFile(const FPath& path)
+{
+    FIfStream file(path, std::ios::in | std::ios::binary);
+    if (!file.is_open())
+        return (TVector<FUint8>());
+    TVector<FUint8> buffer(
+        (std::istreambuf_iterator<char>(file)),
+        std::istreambuf_iterator<char>()
+    );
+    return (buffer);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 FString ReadFile(const FPath& path)
 {
     FIfStream file(path, std::ios::in | std::ios::binary);
