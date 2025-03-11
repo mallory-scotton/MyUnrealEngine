@@ -12,8 +12,8 @@ namespace UEB
 {
 
 ///////////////////////////////////////////////////////////////////////////////
-USaveArchive::USaveArchive(const FString& filename)
-    : mFilename(filename)
+USaveArchive::USaveArchive(const FPath& filepath)
+    : mFilename(filepath)
     , mPosition(0)
 {
     mIsSaving = true;
