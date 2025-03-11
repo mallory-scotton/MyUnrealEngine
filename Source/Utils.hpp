@@ -10,5 +10,6 @@
 #include "Utils/Archive.hpp"
 #include "Utils/LoadArchive.hpp"
 #include "Utils/SaveArchive.hpp"
+#include "Utils/Filesystem.hpp"
 #include "Utils/Maths.hpp"
 #include "Utils/Strings.hpp"
