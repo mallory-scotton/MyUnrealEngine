@@ -6,6 +6,8 @@
 #include "GraphEditor/Nodes/ArithmeticNodes.hpp"
 #include "GraphEditor/Nodes/ControlFlow.hpp"
 #include "GraphEditor/Nodes/EventNodes.hpp"
+#include "Utils/SFML/Enumerations.hpp"
+#include <SFML/Graphics.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace UEB
@@ -79,8 +81,10 @@ FUint64 UNodesRegister::RegisterBuiltIn(void)
     mBuiltInCount += Register<Nodes::TickNode>("Event.Tick");
 
     // Register Key Events nodes
-    for (char i = 'A'; i <= 'Z'; i++) {
-        mBuiltInCount += Register<Nodes::KeyNode>("Event.Key." + FString(&i, 1), FString(&i, 1));
+    for (FUint32 i = 0; i < sf::Keyboard::KeyCount; i++) {
+        mBuiltInCount += Register<Nodes::KeyNode>(
+            "Event.Key." + KeyNames[i], KeyNames[i]
+        );
     }
 
     return (mBuiltInCount);

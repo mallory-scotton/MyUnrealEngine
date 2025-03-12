@@ -327,4 +327,47 @@ void UGraph::Serialize(UArchive& archive)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::Execute(TSharedPtr<UNode> node, UEvaluationContext& context)
+{
+    if (!node) {
+        return;
+    }
+
+    context.AddToEvaluationQueue(node);
+
+    while (!context.IsQueueEmpty()) {
+        auto node = context.GetNextNode().lock();
+
+        if (!node) {
+            continue;
+        }
+
+        if (!context.IsEvaluated(node)) {
+            node->Evaluate(context);
+            context.MarkAsEvaluated(node);
+        }
+
+        for (auto& pin : node->GetOutputs()) {
+            if (
+                pin->GetType() != UPin::Type::Flow ||
+                context.GetPinValue<bool>(pin) == false
+            ) {
+                continue;
+            }
+
+            for (auto& wlink : pin->GetLinks()) {
+                TSharedPtr<ULink> link = wlink.lock();
+                if (!link) {
+                    continue;
+                }
+
+                TSharedPtr<UPin> target = link->GetTarget();
+
+                context.AddToEvaluationQueue(target->GetOwner());
+            }
+        }
+    }
+}
+
 } // !namespace UEB

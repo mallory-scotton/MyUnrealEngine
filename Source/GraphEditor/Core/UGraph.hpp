@@ -139,6 +139,40 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     /// \brief
     ///
+    /// \tparam EventNodeType
+    ///
+    /// \param name
+    ///
+    /// \return
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    template <typename EventNodeType>
+    TSharedPtr<UNode> FindEventNode(const FString& name)
+    {
+        for (auto& node : mNodes) {
+            auto eventNode = std::dynamic_pointer_cast<EventNodeType>(node);
+            if (eventNode && eventNode->GetName() == name) {
+                return (eventNode);
+            }
+        }
+
+        return (nullptr);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    /// \param node
+    /// \param context
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    void Execute(TSharedPtr<UNode> node, UEvaluationContext& context);
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    /// \tparam EventNodeType
+    ///
     /// \param context
     ///
     ///////////////////////////////////////////////////////////////////////////
@@ -162,40 +196,7 @@ public:
             context.SetPinValue<float>(eventNode->GetInputs()[0], deltaSeconds);
         }
 
-        context.AddToEvaluationQueue(eventNode);
-
-        while (!context.IsQueueEmpty()) {
-            auto node = context.GetNextNode().lock();
-
-            if (!node) {
-                continue;
-            }
-
-            if (!context.IsEvaluated(node)) {
-                node->Evaluate(context);
-                context.MarkAsEvaluated(node);
-            }
-
-            for (auto& pin : node->GetOutputs()) {
-                if (
-                    pin->GetType() != UPin::Type::Flow ||
-                    context.GetPinValue<bool>(pin) == false
-                ) {
-                    continue;
-                }
-
-                for (auto& wlink : pin->GetLinks()) {
-                    TSharedPtr<ULink> link = wlink.lock();
-                    if (!link) {
-                        continue;
-                    }
-
-                    TSharedPtr<UPin> target = link->GetTarget();
-
-                    context.AddToEvaluationQueue(target->GetOwner());
-                }
-            }
-        }
+        Execute(eventNode, context);
     }
 };
 
