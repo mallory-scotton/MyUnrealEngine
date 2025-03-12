@@ -11,5 +11,7 @@
 #include "Utils/Archive/SaveArchive.hpp"
 #include "Utils/Filesystem/Filesystem.hpp"
 #include "Utils/Maths/Maths.hpp"
+#include "Utils/Maths/Vec2.hpp"
 #include "Utils/Strings/Strings.hpp"
+#include "Utils/SVG.hpp"
 #include "Utils/Types.hpp"
