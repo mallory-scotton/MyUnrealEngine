@@ -4,7 +4,7 @@
 #include "GraphEditor/Core/UNode.hpp"
 #include "GraphEditor/Core/UEvaluationContext.hpp"
 #include "GraphEditor/Core/UNodeBuilder.hpp"
-#include "Content/Icons/Nodes.hpp"
+#include "Utils/SVG.hpp"
 #include <imgui-SFML.h>
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -29,16 +29,16 @@ UNodeBuilder UNode::sBuilder;
 
 ///////////////////////////////////////////////////////////////////////////////
 static const sf::Texture Icons[static_cast<int>(UNode::NodeIcon::COUNT)] = {
-    sf::Texture(Icon::Branch, sizeof(Icon::Branch)),        // Branch
-    sf::Texture(),                                          // Select
-    sf::Texture(Icon::Sequence, sizeof(Icon::Sequence)),    // Sequence
-    sf::Texture(),                                          // FliFlop
-    sf::Texture(),                                          // DoN
-    sf::Texture(),                                          // DoOnce
-    sf::Texture(),                                          // ForEach
-    sf::Texture(Icon::Event, sizeof(Icon::Event)),          // Event
-    sf::Texture(),                                          // Cast
-    sf::Texture()                                           // BreakStructure
+    LoadSVG("Source/Content/Icons/Nodes/Branch.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/Select.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/Sequence.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/FlipFlop.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/DoN.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/DoOnce.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/ForEach.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/Event.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/Cast.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/BreakStructure.svg", 48, 48)
 };
 
 ///////////////////////////////////////////////////////////////////////////////

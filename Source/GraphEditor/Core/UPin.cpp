@@ -5,7 +5,7 @@
 #include "GraphEditor/Core/UNode.hpp"
 #include "GraphEditor/Core/UNodeBuilder.hpp"
 #include "GraphEditor/Core/ULink.hpp"
-#include "Content/Icons/Pins.hpp"
+#include "Utils/SVG.hpp"
 #include <SFML/Graphics.hpp>
 #include <imgui.h>
 #include <imgui-SFML.h>
@@ -27,10 +27,10 @@ namespace UEB
 //
 ///////////////////////////////////////////////////////////////////////////////
 static const sf::Texture PinIcons[4] = {
-    sf::Texture(Icons::FlowPin, sizeof(Icons::FlowPin)),
-    sf::Texture(Icons::FlowPinConnected, sizeof(Icons::FlowPinConnected)),
-    sf::Texture(Icons::Pin, sizeof(Icons::Pin)),
-    sf::Texture(Icons::PinConnected, sizeof(Icons::PinConnected))
+    LoadSVG("Source/Content/Icons/Pins/Flow.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Pins/FlowConnected.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Pins/Pin.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Pins/PinConnected.svg", 48, 48)
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -75,8 +75,8 @@ bool UPin::CanConnectTo(TSharedPtr<UPin> a, TSharedPtr<UPin> b)
         ShowLabel("x Incompatible Pin Type");
     } else if (!(canConnect = (a->GetKind() != b->GetKind()))) {
         ShowLabel("x Incompatible Pin Kind");
-    } else if (!(canConnect = (
-        a->GetType() == UPin::Type::Flow && a->GetLinks().size() == 0))) {
+    } else if (a->GetType() == UPin::Type::Flow &&
+        !(canConnect = (a->GetLinks().size() == 0))) {
         ShowLabel("x Flow Pin Already Connected");
     }
 
