@@ -46,4 +46,10 @@ void UObject::SetActive(bool active)
     mActive = active;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void UObject::Render(sf::RenderTarget& target) const
+{
+    (void)target;
+}
+
 } // !namespace UEB
