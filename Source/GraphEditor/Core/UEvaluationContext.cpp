@@ -2,6 +2,7 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "GraphEditor/Core/UEvaluationContext.hpp"
+#include "Objects/AActor.hpp"
 #include "Utils/Types.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -73,6 +74,18 @@ void UEvaluationContext::Reset(void)
     mPinValues.clear();
     mEvaluationQueue = TQueue<TWeakPtr<UNode>>();
     mEvaluatedNodes.clear();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+AActor* UEvaluationContext::GetActor(void) const
+{
+    return (mActor);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UEvaluationContext::SetActor(AActor* actor)
+{
+    mActor = actor;
 }
 
 } // !namespace UEB

@@ -21,6 +21,7 @@ namespace UEB
 //
 ///////////////////////////////////////////////////////////////////////////////
 class UNode;
+class AActor;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// \brief
@@ -36,6 +37,7 @@ private:
     TUnorderedMap<UPin::ID, FAny> mPinValues;   //<!
     TQueue<TWeakPtr<UNode>> mEvaluationQueue;   //<!
     TUnorderedSet<UNode::ID> mEvaluatedNodes;   //<!
+    AActor* mActor;                             //<!
 
 public:
     ///////////////////////////////////////////////////////////////////////////
@@ -103,9 +105,18 @@ public:
     {
         if (mPinValues.count(pin->GetID()) == 0) {
             if (pin->GetType() == UPin::Type::Flow) {
-                return (T{1});
+                if constexpr (std::is_convertible_v<int, T>) {
+                    return (T{1});
+                }
+                return (T{});
             }
-            return (T{0});
+            if (pin->GetType() == UPin::Type::Actor) {
+                if constexpr (std::is_convertible_v<AActor*, T>) {
+                    return (static_cast<T>(GetActor()));
+                }
+                return (T{});
+            }
+            return (T{});
         }
         return (std::any_cast<T>(mPinValues.at(pin->GetID())));
     }
@@ -186,6 +197,22 @@ public:
     ///
     ///////////////////////////////////////////////////////////////////////////
     void Reset(void);
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    /// \return
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    AActor* GetActor(void) const;
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    /// \param actor
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    void SetActor(AActor* actor);
 };
 
 } // !namespace UEB
