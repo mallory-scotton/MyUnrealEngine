@@ -43,6 +43,10 @@ void UGame::Run(void)
     while (const auto& event = mWindow->pollEvent()) {
         if (event->is<sf::Event::Closed>()) {
             Close();
+        } else if (const auto& key = event->getIf<sf::Event::KeyPressed>()) {
+            mWorld->KeyPressed(key->code);
+        } else if (const auto& key = event->getIf<sf::Event::KeyReleased>()) {
+            mWorld->KeyReleased(key->code);
         }
     }
 
