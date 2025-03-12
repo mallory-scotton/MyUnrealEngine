@@ -78,6 +78,11 @@ FUint64 UNodesRegister::RegisterBuiltIn(void)
     mBuiltInCount += Register<Nodes::EndPlayNode>("Event.EndPlay");
     mBuiltInCount += Register<Nodes::TickNode>("Event.Tick");
 
+    // Register Key Events nodes
+    for (char i = 'A'; i <= 'Z'; i++) {
+        mBuiltInCount += Register<Nodes::KeyNode>("Event.Key." + FString(&i, 1), FString(&i, 1));
+    }
+
     return (mBuiltInCount);
 }
 

@@ -56,8 +56,8 @@ public:
     /// \return
     ///
     ///////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    static bool Register(const FString& name)
+    template <typename T, typename... Args>
+    static bool Register(const FString& name, Args&&... defaultArgs)
     {
         if (mFactories.find(name) != mFactories.end()) {
             return (false);
@@ -65,8 +65,14 @@ public:
 
         mNames.push_back(name);
 
-        mFactories[name] = []() -> TSharedPtr<UNode> {
-            return (std::make_shared<T>());
+        mFactories[name] =
+        [args = std::make_tuple(std::forward<Args>(defaultArgs)...)]
+        () -> TSharedPtr<UNode> {
+            return (std::apply([](auto&&... params) {
+                return (std::make_shared<T>(
+                    std::forward<decltype(params)>(params)...
+                ));
+            }, args));
         };
 
         return (true);
