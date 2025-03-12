@@ -4,6 +4,7 @@
 #include "GraphEditor/Core/UNode.hpp"
 #include "GraphEditor/Core/UEvaluationContext.hpp"
 #include "GraphEditor/Core/UNodeBuilder.hpp"
+#include "GraphEditor/Core/UNodesRegister.hpp"
 #include "Utils/SVG.hpp"
 #include <imgui-SFML.h>
 #include <imgui.h>
