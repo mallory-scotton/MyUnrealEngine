@@ -27,4 +27,10 @@ FVec2::FVec2(float x, float y)
     , y(y)
 {}
 
+///////////////////////////////////////////////////////////////////////////////
+FVec2::operator sf::Vector2f(void) const
+{
+    return (sf::Vector2f(x, y));
+}
+
 } // !namespace UEB
