@@ -33,4 +33,113 @@ FVec2::operator sf::Vector2f(void) const
     return (sf::Vector2f(x, y));
 }
 
+///////////////////////////////////////////////////////////////////////////////
+FVec2 FVec2::operator+(const FVec2& other) const
+{
+    return (FVec2(x + other.x, y + other.y));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+FVec2& FVec2::operator+=(const FVec2& other)
+{
+    x += other.x;
+    y += other.y;
+    return (*this);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+FVec2 FVec2::operator-(const FVec2& other) const
+{
+    return (FVec2(x - other.x, y - other.y));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+FVec2& FVec2::operator-=(const FVec2& other)
+{
+    x -= other.x;
+    y -= other.y;
+    return (*this);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+FVec2 FVec2::operator*(const FVec2& other) const
+{
+    return (FVec2(x * other.x, y * other.y));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+FVec2& FVec2::operator*=(const FVec2& other)
+{
+    x *= other.x;
+    y *= other.y;
+    return (*this);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+FVec2 FVec2::operator/(const FVec2& other) const
+{
+    if (other.x == 0.f || other.y == 0.f) {
+        return (FVec2(0.f));
+    }
+    return (FVec2(x / other.x, y / other.y));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+FVec2& FVec2::operator/=(const FVec2& other)
+{
+    if (other.x != 0.f) {
+        x /= other.x;
+    } else {
+        x = 0.f;
+    }
+    if (other.y != 0.f) {
+        y /= other.y;
+    } else {
+        y = 0.f;
+    }
+    return (*this);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool FVec2::operator==(const FVec2& other) const
+{
+    return (x == other.x && y == other.y);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool FVec2::operator==(float other) const
+{
+    return (x == other && y == other);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool FVec2::operator!=(const FVec2& other) const
+{
+    return (x != other.x || y != other.y);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool FVec2::operator<(const FVec2& other) const
+{
+    return (x < other.x && y < other.y);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool FVec2::operator>(const FVec2& other) const
+{
+    return (x > other.x && y > other.y);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool FVec2::operator<=(const FVec2& other) const
+{
+    return (x <= other.x && y <= other.y);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool FVec2::operator>=(const FVec2& other) const
+{
+    return (x >= other.x && y >= other.y);
+}
+
 } // !namespace UEB
