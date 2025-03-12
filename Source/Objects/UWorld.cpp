@@ -46,6 +46,26 @@ void UWorld::EndPlay(void)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void UWorld::KeyPressed(sf::Keyboard::Key key)
+{
+    for (auto& object : mObjects) {
+        if (object->IsActive()) {
+            object->KeyPressed(key);
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UWorld::KeyReleased(sf::Keyboard::Key key)
+{
+    for (auto& object : mObjects) {
+        if (object->IsActive()) {
+            object->KeyReleased(key);
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void UWorld::Render(sf::RenderTarget& target) const
 {
     for (const auto& object : mObjects) {
