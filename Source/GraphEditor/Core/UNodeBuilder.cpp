@@ -2,6 +2,7 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "GraphEditor/Core/UNodeBuilder.hpp"
+#include "Content/Icons/Noise.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 #include <imgui_node_editor.h>
@@ -12,7 +13,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 namespace en = ax::NodeEditor;
 
-ImTextureID sfToImGuiTexture(GLuint glTextureHandle)
+///////////////////////////////////////////////////////////////////////////////
+/// \brief
+///
+/// \param glTextureHandle
+///
+/// \return
+///
+///////////////////////////////////////////////////////////////////////////////
+static ImTextureID sfToImGuiTexture(GLuint glTextureHandle)
 {
     ImTextureID textureID{};
     std::memcpy(&textureID, &glTextureHandle, sizeof(GLuint));
@@ -27,19 +36,14 @@ namespace UEB
 
 ///////////////////////////////////////////////////////////////////////////////
 UNodeBuilder::UNodeBuilder(void)
-    : mHeaderTexture(nullptr)
-    , mHeaderWidth(0)
-    , mHeaderHeight(0)
+    : mTexture(Icon::BlueprintNoise, sizeof(Icon::BlueprintNoise))
+    , mHeaderTexture(sfToImGuiTexture(mTexture.getNativeHandle()))
+    , mHeaderWidth(mTexture.getSize().x)
+    , mHeaderHeight(mTexture.getSize().y)
     , mID(0)
     , mStage(Stage::Invalid)
     , mHasHeader(false)
-{
-    if (mTexture.loadFromFile("Assets/BlueprintNoise.png")) {
-        mHeaderTexture = sfToImGuiTexture(mTexture.getNativeHandle());
-        mHeaderWidth = mTexture.getSize().x;
-        mHeaderHeight = mTexture.getSize().y;
-    }
-}
+{}
 
 ///////////////////////////////////////////////////////////////////////////////
 UNodeBuilder::~UNodeBuilder(void)
@@ -160,7 +164,7 @@ void UNodeBuilder::End(void)
         auto drawList = en::GetNodeBackgroundDrawList(mID);
         const auto halfBorderWidth = en::GetStyle().NodeBorderWidth * 0.5f;
         auto headerColor =
-            IM_COL32(0, 0, 0, alpha) |
+            IM_COL32(0, 0, 0, alpha - 25) |
             (mHeaderColor & IM_COL32(255, 255, 255, 0));
 
         if (
@@ -169,8 +173,8 @@ void UNodeBuilder::End(void)
             mHeaderTexture
         ) {
             const auto uv = ImVec2(
-                (mHeaderMax.x - mHeaderMin.x) / (float)(4.0f * mHeaderWidth),
-                (mHeaderMax.y - mHeaderMin.y) / (float)(4.0f * mHeaderHeight));
+                (mHeaderMax.x - mHeaderMin.x) / (float)(1.f * mHeaderWidth),
+                (mHeaderMax.y - mHeaderMin.y) / (float)(1.f * mHeaderHeight));
 
             drawList->AddImageRounded(mHeaderTexture,
                 mHeaderMin - ImVec2(8 - halfBorderWidth, 4 - halfBorderWidth),
