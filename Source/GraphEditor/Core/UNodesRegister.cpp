@@ -5,6 +5,7 @@
 #include "GraphEditor/Core/UEvaluationContext.hpp"
 #include "GraphEditor/Nodes/ArithmeticNodes.hpp"
 #include "GraphEditor/Nodes/ControlFlow.hpp"
+#include "GraphEditor/Nodes/ActorNodes.hpp"
 #include "GraphEditor/Nodes/EventNodes.hpp"
 #include "Utils/SFML/Enumerations.hpp"
 #include <SFML/Graphics.hpp>
@@ -86,6 +87,10 @@ FUint64 UNodesRegister::RegisterBuiltIn(void)
             "Event.Key." + KeyNames[i], KeyNames[i]
         );
     }
+
+    // Actor functions
+    mBuiltInCount += Register<Nodes::GetActorLocationNode>("Actor.GetLocation");
+    mBuiltInCount += Register<Nodes::SetActorLocationNode>("Actor.SetLocation");
 
     return (mBuiltInCount);
 }
