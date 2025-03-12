@@ -63,6 +63,13 @@ public:
         Event,          //<!
         Cast,           //<!
         BreakStructure, //<!
+        KeyboardEvent,  //<!
+        MakeArray,      //<!
+        MakeMap,        //<!
+        MakeSet,        //<!
+        MakeStructure,  //<!
+        MouseEvent,     //<!
+        Switch,         //<!
         COUNT
     };
 

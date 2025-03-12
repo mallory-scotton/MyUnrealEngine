@@ -38,7 +38,14 @@ static const sf::Texture Icons[static_cast<int>(UNode::NodeIcon::COUNT)] = {
     LoadSVG("Source/Content/Icons/Nodes/ForEach.svg", 48, 48),
     LoadSVG("Source/Content/Icons/Nodes/Event.svg", 48, 48),
     LoadSVG("Source/Content/Icons/Nodes/Cast.svg", 48, 48),
-    LoadSVG("Source/Content/Icons/Nodes/BreakStructure.svg", 48, 48)
+    LoadSVG("Source/Content/Icons/Nodes/BreakStructure.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/KeyboardEvent.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/MakeArray.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/MakeMap.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/MakeSet.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/MakeStructure.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/MouseEvent.svg", 48, 48),
+    LoadSVG("Source/Content/Icons/Nodes/Switch.svg", 48, 48),
 };
 
 ///////////////////////////////////////////////////////////////////////////////

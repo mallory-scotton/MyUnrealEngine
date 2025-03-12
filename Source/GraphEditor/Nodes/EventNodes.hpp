@@ -137,7 +137,7 @@ public:
             key,
             Type::Blueprint,
             ImColor(180, 28, 28),
-            NodeIcon::Event
+            NodeIcon::KeyboardEvent
         )
     {
         AddOutputPin(UPin::Type::Flow, "Pressed");
