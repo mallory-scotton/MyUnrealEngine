@@ -3,6 +3,7 @@
 ###############################################################################
 
 CXX					=	g++
+CC					=	gcc
 
 CXXFLAGS			=	-std=c++20 -Wall -Wextra \
 						-IExternal/SFML/include \
@@ -30,6 +31,8 @@ CXXFLAGS			=	-std=c++20 -Wall -Wextra \
 						-lvorbisfile \
 						-lvorbisenc
 
+CCFLAGS				=	-IExternal/ImGui -w
+
 TARGET				=	MyUnrealEngine
 
 ###############################################################################
@@ -50,17 +53,19 @@ IMGUI_DIRECTORY		=	External/ImGui
 SOURCES				=	$(shell find $(SOURCE_DIRECTORY) -name '*.cpp') \
 						$(shell find $(IMGUI_DIRECTORY) -name '*.cpp')
 
+SOURCES_C			=	$(shell find $(IMGUI_DIRECTORY) -name '*.c')
+
 ###############################################################################
 ## Makefile logic
 ###############################################################################
 
-#ifeq ($(shell git rev-parse HEAD > /dev/null; echo $$?),0)
-#	AUTHOR			:=	$(shell git log --format='%aN' | sort -u | awk \
-#						'{printf "%s, ", $$0}' | rev | cut -c 3- | rev)
-#	DATE			:=	$(shell git log -1 --date=format:"%Y/%m/%d %T" \
-#						--format="%ad")
-#	HASH			:=	$(shell git rev-parse --short HEAD)
-#endif
+ifeq ($(shell git rev-parse HEAD > /dev/null; echo $$?),0)
+	AUTHOR			:=	$(shell git log --format='%aN' | sort -u | awk \
+						'{printf "%s, ", $$0}' | rev | cut -c 3- | rev)
+	DATE			:=	$(shell git log -1 --date=format:"%Y/%m/%d %T" \
+						--format="%ad")
+	HASH			:=	$(shell git rev-parse --short HEAD)
+endif
 
 MFLAGS				:=	$(CXXFLAGS)
 
@@ -71,9 +76,9 @@ ERROR_COLOR			=	\033[0;31m
 WARN_COLOR			=	\033[0;33m
 NO_COLOR			=	\033[m
 
-OBJECTS				=	$(SOURCES:.cpp=.o)
+OBJECTS				:=	$(SOURCES:.cpp=.o) $(SOURCES_C:.c=.o)
 
-DEPENDENCIES		=	$(SOURCES:.cpp=.d)
+DEPENDENCIES		=	$(SOURCES:.cpp=.d) $(SOURCES_C:.c=.d)
 
 QUIET				?=	0
 
@@ -139,6 +144,10 @@ external:
 %.o: %.cpp
 	@./Scripts/progress.sh
 	@./Scripts/run.sh "$(CXX) -c $< -o $@ $(CXXFLAGS)" "$@"
+
+%.o: %.c
+	@./Scripts/progress.sh
+	@./Scripts/run.sh "$(CC) -c $< -o $@ $(CCFLAGS)" "$@"
 
 clear:
 	@rm -f Source/Main.o
