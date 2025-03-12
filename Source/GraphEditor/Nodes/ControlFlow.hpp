@@ -28,7 +28,12 @@ public:
     ///
     ///////////////////////////////////////////////////////////////////////////
     BranchNode(void)
-        : UNode("Branch")
+        : UNode(
+            "Branch",
+            Type::Blueprint,
+            ImColor(255, 255, 255),
+            NodeIcon::Branch
+        )
     {
         AddInputPin(UPin::Type::Flow);
         AddInputPin(UPin::Type::Boolean, "Condition");

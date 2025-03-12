@@ -5,15 +5,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 #include <imgui_node_editor.h>
-#include <widgets.h>
-#include <drawing.h>
 #include <cstring>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Forward namespaces
 ///////////////////////////////////////////////////////////////////////////////
-namespace ew = ax::Widgets;
-namespace ed = ax::Drawing;
 namespace en = ax::NodeEditor;
 
 ImTextureID sfToImGuiTexture(GLuint glTextureHandle)

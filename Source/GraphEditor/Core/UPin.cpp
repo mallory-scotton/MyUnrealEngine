@@ -5,17 +5,16 @@
 #include "GraphEditor/Core/UNode.hpp"
 #include "GraphEditor/Core/UNodeBuilder.hpp"
 #include "GraphEditor/Core/ULink.hpp"
+#include "Content/Icons/Pins.hpp"
+#include <SFML/Graphics.hpp>
 #include <imgui.h>
+#include <imgui-SFML.h>
 #include <imgui_internal.h>
 #include <imgui_node_editor.h>
-#include <widgets.h>
-#include <drawing.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Forward namespaces
 ///////////////////////////////////////////////////////////////////////////////
-namespace ew = ax::Widgets;
-namespace ed = ax::Drawing;
 namespace en = ax::NodeEditor;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -23,6 +22,16 @@ namespace en = ax::NodeEditor;
 ///////////////////////////////////////////////////////////////////////////////
 namespace UEB
 {
+
+///////////////////////////////////////////////////////////////////////////////
+//
+///////////////////////////////////////////////////////////////////////////////
+static const sf::Texture PinIcons[4] = {
+    sf::Texture(Icons::FlowPin, sizeof(Icons::FlowPin)),
+    sf::Texture(Icons::FlowPinConnected, sizeof(Icons::FlowPinConnected)),
+    sf::Texture(Icons::Pin, sizeof(Icons::Pin)),
+    sf::Texture(Icons::PinConnected, sizeof(Icons::PinConnected))
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 UPin::UPin(UPin::Type type, UPin::Kind kind, const FString& name)
@@ -79,22 +88,20 @@ bool UPin::CanConnectTo(TSharedPtr<UPin> a, TSharedPtr<UPin> b)
 ///////////////////////////////////////////////////////////////////////////////
 void UPin::DrawPinIcon(float alpha)
 {
-    ed::IconType type = ed::IconType::Circle;
     ImColor color = GetColor();
+    bool connected = !mLinks.empty();
+    sf::Color clr(
+        color.Value.x * 255,
+        color.Value.y * 255,
+        color.Value.z * 255,
+        alpha * 255
+    );
 
     if (mType == Type::Flow) {
-        type = ed::IconType::Flow;
+        ImGui::Image(PinIcons[0 + connected], sf::Vector2f(16, 16), clr);
+    } else {
+        ImGui::Image(PinIcons[2 + connected], sf::Vector2f(16, 16), clr);
     }
-
-    color.Value.w = alpha;
-
-    ew::Icon(
-        ImVec2(24, 24),
-        type,
-        !mLinks.empty(),
-        color,
-        ImColor(32, 32, 32, static_cast<int>(255 * alpha))
-    );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

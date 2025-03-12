@@ -47,6 +47,25 @@ public:
         Comment         //<!
     };
 
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    ///////////////////////////////////////////////////////////////////////////
+    enum class NodeIcon
+    {
+        None = -1,      //<!
+        Branch,         //<!
+        Select,         //<!
+        Sequence,       //<!
+        FliFlop,        //<!
+        DoN,            //<!
+        DoOnce,         //<!
+        ForEach,        //<!
+        Event,          //<!
+        Cast,           //<!
+        BreakStructure, //<!
+        COUNT
+    };
+
 public:
     ///////////////////////////////////////////////////////////////////////////
     //
@@ -59,6 +78,7 @@ protected:
     //
     ///////////////////////////////////////////////////////////////////////////
     ID mID;             //<!
+    NodeIcon mIcon;     //<!
     FString mName;      //<!
     Type mType;         //<!
     ImColor mColor;     //<!
@@ -79,7 +99,8 @@ public:
     UNode(
         const FString& name = "",
         Type type = Type::Blueprint,
-        ImColor color = ImColor(255, 255, 255)
+        ImColor color = ImColor(255, 255, 255),
+        NodeIcon icon = NodeIcon::None
     );
 
     ///////////////////////////////////////////////////////////////////////////

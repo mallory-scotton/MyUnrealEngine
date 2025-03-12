@@ -4,17 +4,15 @@
 #include "GraphEditor/Core/UNode.hpp"
 #include "GraphEditor/Core/UEvaluationContext.hpp"
 #include "GraphEditor/Core/UNodeBuilder.hpp"
+#include "Content/Icons/Nodes.hpp"
+#include <imgui-SFML.h>
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui_node_editor.h>
-#include <widgets.h>
-#include <drawing.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Forward namespaces
 ///////////////////////////////////////////////////////////////////////////////
-namespace ew = ax::Widgets;
-namespace ed = ax::Drawing;
 namespace en = ax::NodeEditor;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -30,8 +28,19 @@ FUint64 UNode::sNextID = 1;
 UNodeBuilder UNode::sBuilder;
 
 ///////////////////////////////////////////////////////////////////////////////
-UNode::UNode(const FString& name, UNode::Type type, ImColor color)
+static const sf::Texture Icons[static_cast<int>(UNode::NodeIcon::COUNT)] = {
+    sf::Texture(Icon::Branch, sizeof(Icon::Branch))
+};
+
+///////////////////////////////////////////////////////////////////////////////
+UNode::UNode(
+    const FString& name,
+    UNode::Type type,
+    ImColor color,
+    NodeIcon icon
+)
     : mID(sNextID++)
+    , mIcon(icon)
     , mName(name)
     , mType(type)
     , mColor(color)
@@ -109,6 +118,9 @@ void UNode::Render(void)
 
     if (mType != Type::Simple) {
         sBuilder.Header(mColor);
+        if (mIcon != NodeIcon::None) {
+            ImGui::Image(Icons[static_cast<int>(mIcon)], sf::Vector2f(16, 16));
+        }
         ImGui::Spring(0);
         ImGui::TextUnformatted(mName.c_str());
         ImGui::Spring(1);
