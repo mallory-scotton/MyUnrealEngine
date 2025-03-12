@@ -10,6 +10,12 @@ namespace UEB
 {
 
 ///////////////////////////////////////////////////////////////////////////////
+void UWorld::AddObject(TSharedPtr<UObject> object)
+{
+    mObjects.push_back(object);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void UWorld::BeginPlay(void)
 {
     for (auto& object : mObjects) {
@@ -35,6 +41,16 @@ void UWorld::EndPlay(void)
     for (auto& object : mObjects) {
         if (object->IsActive()) {
             object->EndPlay();
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UWorld::Render(sf::RenderTarget& target) const
+{
+    for (const auto& object : mObjects) {
+        if (object->IsActive()) {
+            object->Render(target);
         }
     }
 }
