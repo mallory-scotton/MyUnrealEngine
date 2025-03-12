@@ -190,6 +190,31 @@ void UPin::RemoveLink(TWeakPtr<ULink> link)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void UPin::RenderInput(void)
+{
+    const char* id = ("##" + std::to_string(mID.Get())).c_str();
+
+    if (mType == Type::Float) {
+        if (!mValue.has_value()) {
+            mValue = 0.f;
+        }
+        ImGui::SetNextItemWidth(40.f);
+        float value = std::any_cast<float>(mValue);
+        if (ImGui::InputFloat(id, &value, 0.f, 0.f, "%.2f")) {
+            mValue = value;
+        }
+    } else if (mType == Type::Boolean) {
+        if (!mValue.has_value()) {
+            mValue = false;
+        }
+        bool value = std::any_cast<bool>(mValue);
+        if (ImGui::Checkbox(id, &value)) {
+            mValue = value;
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void UPin::Render(void)
 {
     auto alpha = ImGui::GetStyle().Alpha;
@@ -207,6 +232,10 @@ void UPin::Render(void)
         if (!mName.empty()) {
             ImGui::TextUnformatted(mName.c_str());
             ImGui::Spring(0);
+        }
+
+        if (mLinks.empty()) {
+            RenderInput();
         }
 
         ImGui::PopStyleVar();
