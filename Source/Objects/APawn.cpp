@@ -48,7 +48,7 @@ void APawn::Render(sf::RenderTarget& target) const
     sf::RectangleShape shape({20, 20});
     shape.setFillColor(sf::Color::Red);
     shape.setScale(mScale);
-    shape.setPosition(mPosition);
+    shape.setPosition(mLocation);
     target.draw(shape);
 }
 

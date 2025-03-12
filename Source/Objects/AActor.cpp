@@ -12,8 +12,22 @@ namespace UEB
 ///////////////////////////////////////////////////////////////////////////////
 AActor::AActor(TSharedPtr<UClass> inClass)
     : UObject(inClass)
-    , mPosition(0.f)
+    , mLocation(0.f)
     , mScale(1.f)
-{}
+{
+    mContext.SetActor(this);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+FVec2 AActor::GetLocation(void) const
+{
+    return (mLocation);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void AActor::SetLocation(const FVec2& location)
+{
+    mLocation = location;
+}
 
 } // !namespace UEB
