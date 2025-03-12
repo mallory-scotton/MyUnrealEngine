@@ -67,7 +67,10 @@ int main(void)
 
     TSharedPtr<UEB::UWorld> world = std::make_shared<UEB::UWorld>();
     TUniquePtr<UEB::UGame> game;
-    world->AddObject(std::make_shared<UEB::APawn>(myClass));
+    TSharedPtr<UEB::APawn> pawn = std::make_shared<UEB::APawn>(myClass);
+    world->AddObject(pawn);
+
+    pawn->SetLocation({200.f, 200.f});
 
     while (window.isOpen()) {
         while (auto event = window.pollEvent()) {
