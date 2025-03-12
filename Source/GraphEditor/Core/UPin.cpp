@@ -75,6 +75,9 @@ bool UPin::CanConnectTo(TSharedPtr<UPin> a, TSharedPtr<UPin> b)
         ShowLabel("x Incompatible Pin Type");
     } else if (!(canConnect = (a->GetKind() != b->GetKind()))) {
         ShowLabel("x Incompatible Pin Kind");
+    } else if (!(canConnect = (
+        a->GetType() == UPin::Type::Flow && a->GetLinks().size() == 0))) {
+        ShowLabel("x Flow Pin Already Connected");
     }
 
     if (!canConnect) {
