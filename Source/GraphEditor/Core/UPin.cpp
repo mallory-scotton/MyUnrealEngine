@@ -117,6 +117,8 @@ ImColor UPin::GetColor(void) const
         case Type::Boolean:                    return (ImColor(149,   0,   2));
         case Type::Byte:                       return (ImColor(  0, 110, 101));
         case Type::String:                     return (ImColor(239,   2, 204));
+        case Type::Vector:                     return (ImColor(246, 195,  33));
+        case Type::Actor:                      return (ImColor(  0, 168, 242));
         default:                               return (ImColor(255, 255, 255));
     }
 }

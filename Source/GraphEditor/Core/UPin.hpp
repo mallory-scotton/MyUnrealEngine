@@ -48,6 +48,8 @@ public:
         Boolean,        //<!
         Byte,           //<!
         String,         //<!
+        Vector,         //<!
+        Actor,          //<!
         Flow            //<!
     };
 
