@@ -10,7 +10,6 @@
 #include <imgui_internal.h>
 #include <imgui-SFML.h>
 #include <imgui_node_editor.h>
-#include <widgets.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace en = ax::NodeEditor;
@@ -37,6 +36,27 @@ int main(void)
         ImGuiWindowFlags_NoScrollWithMouse;
 
     en::EditorContext* context = en::CreateEditor();
+
+    ImGuiIO& io = ImGui::GetIO();
+
+    ImFontConfig fontConfig;
+    fontConfig.OversampleH = 4;
+    fontConfig.OversampleV = 4;
+    fontConfig.PixelSnapH = true;
+
+    ImFont* font = io.Fonts->AddFontFromFileTTF(
+        "Source/Content/Fonts/Roboto-Medium.ttf", 
+        16.0f,
+        &fontConfig
+    );
+    
+    if (font) {
+        io.FontDefault = font;
+        io.FontGlobalScale = 1.0f;
+        (void)ImGui::SFML::UpdateFontTexture();
+    } else {
+        std::cerr << "Failed to load Roboto-Medium.ttf font" << std::endl;
+    }
 
     UEB::UClass myClass("MyClass");
 
