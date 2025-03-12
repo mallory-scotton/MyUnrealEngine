@@ -8,6 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "GraphEditor/Core/UNode.hpp"
 #include "GraphEditor/Nodes/Templates.hpp"
+#include "Utils/Maths/Vec2.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace UEB::Nodes
@@ -176,7 +177,7 @@ public:
                 context.template SetPinValue<T>(mOutputs[0], T{0});
                 return;
             }
-            result += context.GetPinValue<T>(mInputs[i]);
+            result /= context.GetPinValue<T>(mInputs[i]);
         }
         context.template SetPinValue<T>(mOutputs[0], result);
     }
@@ -494,5 +495,19 @@ using Integer64GreaterOrEqualsNode = _impl::ArithmeticGreaterOrEqualsNode<FInt64
 using Integer64LessOrEqualsNode = _impl::ArithmeticLessOrEqualsNode<FInt64>;
 using Integer64CastFloat = _impl::ArithematicCast<FInt64, float>;
 using Integer64CastInteger = _impl::ArithematicCast<FInt64, FInt32>;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+///////////////////////////////////////////////////////////////////////////////
+using VectorAddNode = _impl::ArithmeticAddNode<FVec2>;
+using VectorSubtractNode = _impl::ArithmeticSubtractNode<FVec2>;
+using VectorMultiplyNode = _impl::ArithmeticMultiplyNode<FVec2>;
+using VectorDivideNode = _impl::ArithmeticDivideNode<FVec2>;
+using VectorEqualsNode = _impl::ArithmeticEqualsNode<FVec2>;
+using VectorNotEqualsNode = _impl::ArithmeticNotEqualsNode<FVec2>;
+using VectorGreaterNode = _impl::ArithmeticGreaterNode<FVec2>;
+using VectorLessNode = _impl::ArithmeticLessNode<FVec2>;
+using VectorGreaterOrEqualsNode = _impl::ArithmeticGreaterOrEqualsNode<FVec2>;
+using VectorLessOrEqualsNode = _impl::ArithmeticLessOrEqualsNode<FVec2>;
 
 } // !namespace UEB::Nodes
