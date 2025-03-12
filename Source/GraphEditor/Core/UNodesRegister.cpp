@@ -71,6 +71,7 @@ FUint64 UNodesRegister::RegisterBuiltIn(void)
 
     // Register Control flow nodes
     mBuiltInCount += Register<Nodes::BranchNode>("Flow.Branch");
+    mBuiltInCount += Register<Nodes::SequenceNode>("Flow.Sequence");
 
     // Register Events nodes
     mBuiltInCount += Register<Nodes::BeginPlayNode>("Event.BeginPlay");

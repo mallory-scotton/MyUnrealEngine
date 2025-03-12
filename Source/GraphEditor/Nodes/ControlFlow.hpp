@@ -63,4 +63,45 @@ public:
     }
 };
 
+///////////////////////////////////////////////////////////////////////////////
+/// \brief
+///
+///////////////////////////////////////////////////////////////////////////////
+class SequenceNode : public UNode
+{
+public:
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    SequenceNode(void)
+        : UNode(
+            "Sequence",
+            Type::Blueprint,
+            ImColor(255, 255, 255),
+            NodeIcon::Sequence
+        )
+    {
+        AddInputPin(UPin::Type::Flow);
+        AddOutputPin(UPin::Type::Flow, "Then 0");
+        AddOutputPin(UPin::Type::Flow, "Then 1");
+    }
+
+public:
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    /// \param context
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    void Evaluate(UEvaluationContext& context) override
+    {
+        bool flow = context.template GetPinValue<bool>(mInputs[0]);
+
+        for (auto& output : mOutputs) {
+            context.template SetPinValue<bool>(output, flow);
+        }
+    }
+};
+
 } // !namespace UEB::Nodes

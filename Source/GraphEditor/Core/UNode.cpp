@@ -29,7 +29,16 @@ UNodeBuilder UNode::sBuilder;
 
 ///////////////////////////////////////////////////////////////////////////////
 static const sf::Texture Icons[static_cast<int>(UNode::NodeIcon::COUNT)] = {
-    sf::Texture(Icon::Branch, sizeof(Icon::Branch))
+    sf::Texture(Icon::Branch, sizeof(Icon::Branch)),        // Branch
+    sf::Texture(),                                          // Select
+    sf::Texture(Icon::Sequence, sizeof(Icon::Sequence)),    // Sequence
+    sf::Texture(),                                          // FliFlop
+    sf::Texture(),                                          // DoN
+    sf::Texture(),                                          // DoOnce
+    sf::Texture(),                                          // ForEach
+    sf::Texture(Icon::Event, sizeof(Icon::Event)),          // Event
+    sf::Texture(),                                          // Cast
+    sf::Texture()                                           // BreakStructure
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -27,7 +27,12 @@ public:
     ///
     ///////////////////////////////////////////////////////////////////////////
     BeginPlayNode(void)
-        : UNode("Event BeginPlay", Type::Blueprint, ImColor(180, 28, 28))
+        : UNode(
+            "Event BeginPlay",
+            Type::Blueprint,
+            ImColor(180, 28, 28),
+            NodeIcon::Event
+        )
     {
         AddOutputPin(UPin::Type::Flow);
     }
@@ -57,7 +62,12 @@ public:
     ///
     ///////////////////////////////////////////////////////////////////////////
     EndPlayNode(void)
-        : UNode("Event EndPlay", Type::Blueprint, ImColor(180, 28, 28))
+        : UNode(
+            "Event EndPlay",
+            Type::Blueprint,
+            ImColor(180, 28, 28),
+            NodeIcon::Event
+        )
     {
         AddOutputPin(UPin::Type::Flow);
     }
@@ -87,7 +97,12 @@ public:
     ///
     ///////////////////////////////////////////////////////////////////////////
     TickNode(void)
-        : UNode("Event Tick", Type::Blueprint, ImColor(180, 28, 28))
+        : UNode(
+            "Event Tick",
+            Type::Blueprint,
+            ImColor(180, 28, 28),
+            NodeIcon::Event
+        )
     {
         AddOutputPin(UPin::Type::Flow);
         AddOutputPin(UPin::Type::Float, "Delta Seconds");
