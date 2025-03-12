@@ -62,9 +62,6 @@ int main(void)
 
     TSharedPtr<UEB::UClass> myClass = std::make_shared<UEB::UClass>("MyClass");
 
-    bool loadGraph = false;
-    bool saveGraph = false;
-
     TSharedPtr<UEB::UWorld> world = std::make_shared<UEB::UWorld>();
     TUniquePtr<UEB::UGame> game;
     TSharedPtr<UEB::APawn> pawn = std::make_shared<UEB::APawn>(myClass);
@@ -79,11 +76,6 @@ int main(void)
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
-
-            if (auto key = event->getIf<sf::Event::KeyReleased>()) {
-                if (key->code == sf::Keyboard::Key::L) loadGraph = true;
-                if (key->code == sf::Keyboard::Key::S) saveGraph = true;
-            }
         }
 
         ImGui::SFML::Update(window, clock.restart());
@@ -94,17 +86,6 @@ int main(void)
         ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 
         ImGui::Begin("Main", nullptr, wflags);
-
-        if (loadGraph) {
-            UEB::ULoadArchive archive("MyClass.uassets");
-            myClass->GetGraph()->Serialize(archive);
-            loadGraph = false;
-        }
-        if (saveGraph) {
-            UEB::USaveArchive archive("MyClass.uassets");
-            myClass->GetGraph()->Serialize(archive);
-            saveGraph = false;
-        }
 
         ImGui::BeginTabBar("TabBar");
 
