@@ -72,6 +72,18 @@ FUint64 UNodesRegister::RegisterBuiltIn(void)
     mBuiltInCount += Register<Nodes::Integer64CastFloat>("Integer64.Cast.Float");
     mBuiltInCount += Register<Nodes::Integer64CastInteger>("Integer64.Cast.Integer");
 
+    // Register Vector arithmetic nodes
+    mBuiltInCount += Register<Nodes::VectorAddNode>("Vector.Add");
+    mBuiltInCount += Register<Nodes::VectorSubtractNode>("Vector.Subtract");
+    mBuiltInCount += Register<Nodes::VectorMultiplyNode>("Vector.Multiply");
+    mBuiltInCount += Register<Nodes::VectorDivideNode>("Vector.Divide");
+    mBuiltInCount += Register<Nodes::VectorEqualsNode>("Vector.Equals");
+    mBuiltInCount += Register<Nodes::VectorNotEqualsNode>("Vector.NotEquals");
+    mBuiltInCount += Register<Nodes::VectorLessNode>("Vector.Less");
+    mBuiltInCount += Register<Nodes::VectorGreaterNode>("Vector.Greater");
+    mBuiltInCount += Register<Nodes::VectorLessOrEqualsNode>("Vector.LessOrEquals");
+    mBuiltInCount += Register<Nodes::VectorGreaterOrEqualsNode>("Vector.GreaterOrEquals");
+
     // Register Control flow nodes
     mBuiltInCount += Register<Nodes::BranchNode>("Flow.Branch");
     mBuiltInCount += Register<Nodes::SequenceNode>("Flow.Sequence");
