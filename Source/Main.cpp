@@ -4,6 +4,7 @@
 #include "Utils/Utils.hpp"
 #include "GraphEditor/GraphEditor.hpp"
 #include "Runtime/UGame.hpp"
+#include "Objects/APawn.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -59,13 +60,14 @@ int main(void)
         std::cerr << "Failed to load Roboto-Medium.ttf font" << std::endl;
     }
 
-    UEB::UClass myClass("MyClass");
+    TSharedPtr<UEB::UClass> myClass = std::make_shared<UEB::UClass>("MyClass");
 
     bool loadGraph = false;
     bool saveGraph = false;
 
     TSharedPtr<UEB::UWorld> world = std::make_shared<UEB::UWorld>();
     TUniquePtr<UEB::UGame> game;
+    world->AddObject(std::make_shared<UEB::APawn>(myClass));
 
     while (window.isOpen()) {
         while (auto event = window.pollEvent()) {
@@ -92,12 +94,12 @@ int main(void)
 
         if (loadGraph) {
             UEB::ULoadArchive archive("MyClass.uassets");
-            myClass.GetGraph()->Serialize(archive);
+            myClass->GetGraph()->Serialize(archive);
             loadGraph = false;
         }
         if (saveGraph) {
             UEB::USaveArchive archive("MyClass.uassets");
-            myClass.GetGraph()->Serialize(archive);
+            myClass->GetGraph()->Serialize(archive);
             saveGraph = false;
         }
 
@@ -112,7 +114,7 @@ int main(void)
         }
 
         if (ImGui::BeginTabItem("Graph")) {
-            myClass.GetGraph()->Render();
+            myClass->GetGraph()->Render();
             ImGui::EndTabItem();
         }
 
