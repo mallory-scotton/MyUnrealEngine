@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Utils/Utils.hpp"
 #include "GraphEditor/GraphEditor.hpp"
+#include "Runtime/UGame.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -63,6 +64,9 @@ int main(void)
     bool loadGraph = false;
     bool saveGraph = false;
 
+    TSharedPtr<UEB::UWorld> world = std::make_shared<UEB::UWorld>();
+    TUniquePtr<UEB::UGame> game;
+
     while (window.isOpen()) {
         while (auto event = window.pollEvent()) {
             ImGui::SFML::ProcessEvent(window, *event);
@@ -100,6 +104,10 @@ int main(void)
         ImGui::BeginTabBar("TabBar");
 
         if (ImGui::BeginTabItem("Play")) {
+            if (ImGui::Button("Play") && !game) {
+                game = std::make_unique<UEB::UGame>(world);
+                game->Initialize();
+            }
             ImGui::EndTabItem();
         }
 
@@ -113,6 +121,14 @@ int main(void)
         ImGui::End();
 
         en::SetCurrentEditor(nullptr);
+
+        if (game) {
+            if (game->IsClosed()) {
+                game = nullptr;
+            } else {
+                game->Run();
+            }
+        }
 
         window.clear();
         ImGui::SFML::Render(window);
