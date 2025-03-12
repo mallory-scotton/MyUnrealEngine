@@ -334,6 +334,7 @@ void UGraph::Execute(TSharedPtr<UNode> node, UEvaluationContext& context)
         return;
     }
 
+    context.Reset();
     context.AddToEvaluationQueue(node);
 
     while (!context.IsQueueEmpty()) {

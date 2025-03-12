@@ -103,6 +103,8 @@ FUint64 UNodesRegister::RegisterBuiltIn(void)
     // Actor functions
     mBuiltInCount += Register<Nodes::GetActorLocationNode>("Actor.GetLocation");
     mBuiltInCount += Register<Nodes::SetActorLocationNode>("Actor.SetLocation");
+    mBuiltInCount += Register<Nodes::GetActorForwardVectorNode>("Actor.GetForwardVector");
+    mBuiltInCount += Register<Nodes::GetActorUpVectorNode>("Actor.GetUpVector");
 
     return (mBuiltInCount);
 }
