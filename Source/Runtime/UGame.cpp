@@ -36,7 +36,7 @@ void UGame::Initialize(void)
 ///////////////////////////////////////////////////////////////////////////////
 void UGame::Run(void)
 {
-    if (mClosed || !mWindow || !mWindow->isOpen()) {
+    if (mClosed || !mWindow || !mWindow->isOpen() || !mWorld) {
         return;
     }
 
@@ -46,12 +46,10 @@ void UGame::Run(void)
         }
     }
 
+    mWorld->Tick(mClock->restart().asSeconds());
+
     mWindow->clear();
-
-    if (mWorld) {
-        mWorld->Tick(mClock->restart().asSeconds());
-    }
-
+    mWorld->Render(*mWindow);
     mWindow->display();
 }
 
