@@ -70,6 +70,7 @@ public:
         MakeStructure,  //<!
         MouseEvent,     //<!
         Switch,         //<!
+        Function,       //<!
         COUNT
     };
 
