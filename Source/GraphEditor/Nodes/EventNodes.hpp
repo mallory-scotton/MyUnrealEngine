@@ -26,16 +26,7 @@ public:
     /// \brief
     ///
     ///////////////////////////////////////////////////////////////////////////
-    BeginPlayNode(void)
-        : UNode(
-            "Event BeginPlay",
-            Type::Blueprint,
-            ImColor(180, 28, 28),
-            NodeIcon::Event
-        )
-    {
-        AddOutputPin(UPin::Type::Flow);
-    }
+    BeginPlayNode(void);
 
 public:
     ///////////////////////////////////////////////////////////////////////////
@@ -44,10 +35,7 @@ public:
     /// \param context
     ///
     ///////////////////////////////////////////////////////////////////////////
-    void Evaluate(UEvaluationContext& context) override
-    {
-        context.template SetPinValue<bool>(mOutputs[0], true);
-    }
+    void Evaluate(UEvaluationContext& context) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -61,16 +49,7 @@ public:
     /// \brief
     ///
     ///////////////////////////////////////////////////////////////////////////
-    EndPlayNode(void)
-        : UNode(
-            "Event EndPlay",
-            Type::Blueprint,
-            ImColor(180, 28, 28),
-            NodeIcon::Event
-        )
-    {
-        AddOutputPin(UPin::Type::Flow);
-    }
+    EndPlayNode(void);
 
 public:
     ///////////////////////////////////////////////////////////////////////////
@@ -79,10 +58,7 @@ public:
     /// \param context
     ///
     ///////////////////////////////////////////////////////////////////////////
-    void Evaluate(UEvaluationContext& context) override
-    {
-        context.template SetPinValue<bool>(mOutputs[0], true);
-    }
+    void Evaluate(UEvaluationContext& context) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -96,17 +72,7 @@ public:
     /// \brief
     ///
     ///////////////////////////////////////////////////////////////////////////
-    TickNode(void)
-        : UNode(
-            "Event Tick",
-            Type::Blueprint,
-            ImColor(180, 28, 28),
-            NodeIcon::Event
-        )
-    {
-        AddOutputPin(UPin::Type::Flow);
-        AddOutputPin(UPin::Type::Float, "Delta Seconds");
-    }
+    TickNode(void);
 
 public:
     ///////////////////////////////////////////////////////////////////////////
@@ -115,10 +81,7 @@ public:
     /// \param context
     ///
     ///////////////////////////////////////////////////////////////////////////
-    void Evaluate(UEvaluationContext& context) override
-    {
-        context.template SetPinValue<bool>(mOutputs[0], true);
-    }
+    void Evaluate(UEvaluationContext& context) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -132,17 +95,7 @@ public:
     /// \brief
     ///
     ///////////////////////////////////////////////////////////////////////////
-    KeyNode(const FString& key)
-        : UNode(
-            key,
-            Type::Blueprint,
-            ImColor(180, 28, 28),
-            NodeIcon::KeyboardEvent
-        )
-    {
-        AddOutputPin(UPin::Type::Flow, "Pressed");
-        AddOutputPin(UPin::Type::Flow, "Released");
-    }
+    KeyNode(const FString& key);
 
 public:
     ///////////////////////////////////////////////////////////////////////////
@@ -151,10 +104,7 @@ public:
     /// \param context
     ///
     ///////////////////////////////////////////////////////////////////////////
-    void Evaluate(UEvaluationContext& context) override
-    {
-        (void)context;
-    }
+    void Evaluate(UEvaluationContext& context) override;
 };
 
 } // !namespace UEB::Nodes
