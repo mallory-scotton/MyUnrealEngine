@@ -10,7 +10,7 @@ namespace UEB
 {
 
 ///////////////////////////////////////////////////////////////////////////////
-void UWorld::AddObject(TSharedPtr<UObject> object)
+void UWorld::AddObject(TSharedPtr<AActor> object)
 {
     mObjects.push_back(object);
 }
