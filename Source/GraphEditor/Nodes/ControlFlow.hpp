@@ -27,19 +27,7 @@ public:
     /// \brief
     ///
     ///////////////////////////////////////////////////////////////////////////
-    BranchNode(void)
-        : UNode(
-            "Branch",
-            Type::Blueprint,
-            ImColor(255, 255, 255),
-            NodeIcon::Branch
-        )
-    {
-        AddInputPin(UPin::Type::Flow);
-        AddInputPin(UPin::Type::Boolean, "Condition");
-        AddOutputPin(UPin::Type::Flow, "True");
-        AddOutputPin(UPin::Type::Flow, "False");
-    }
+    BranchNode(void);
 
 public:
     ///////////////////////////////////////////////////////////////////////////
@@ -48,19 +36,7 @@ public:
     /// \param context
     ///
     ///////////////////////////////////////////////////////////////////////////
-    void Evaluate(UEvaluationContext& context) override
-    {
-        bool flow = context.template GetPinValue<bool>(mInputs[0]);
-        bool condition = context.template GetPinValue<bool>(mInputs[1]);
-
-        if (flow) {
-            context.template SetPinValue<bool>(mOutputs[0], condition);
-            context.template SetPinValue<bool>(mOutputs[1], !condition);
-        } else {
-            context.template SetPinValue<bool>(mOutputs[0], false);
-            context.template SetPinValue<bool>(mOutputs[1], false);
-        }
-    }
+    void Evaluate(UEvaluationContext& context) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -74,18 +50,7 @@ public:
     /// \brief
     ///
     ///////////////////////////////////////////////////////////////////////////
-    SequenceNode(void)
-        : UNode(
-            "Sequence",
-            Type::Blueprint,
-            ImColor(255, 255, 255),
-            NodeIcon::Sequence
-        )
-    {
-        AddInputPin(UPin::Type::Flow);
-        AddOutputPin(UPin::Type::Flow, "Then 0");
-        AddOutputPin(UPin::Type::Flow, "Then 1");
-    }
+    SequenceNode(void);
 
 public:
     ///////////////////////////////////////////////////////////////////////////
@@ -94,14 +59,7 @@ public:
     /// \param context
     ///
     ///////////////////////////////////////////////////////////////////////////
-    void Evaluate(UEvaluationContext& context) override
-    {
-        bool flow = context.template GetPinValue<bool>(mInputs[0]);
-
-        for (auto& output : mOutputs) {
-            context.template SetPinValue<bool>(output, flow);
-        }
-    }
+    void Evaluate(UEvaluationContext& context) override;
 };
 
 } // !namespace UEB::Nodes
