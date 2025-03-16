@@ -254,7 +254,7 @@ void UGraph::RenderGraphEditor(void)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void UGraph::Render(void)
+void UGraph::RenderPropertyBar(void)
 {
     const float propertyBarWidth = 400.0f;
 
@@ -282,6 +282,12 @@ void UGraph::Render(void)
     ImGui::EndChild();
 
     ImGui::PopStyleColor();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void UGraph::Render(void)
+{
+    RenderPropertyBar();
 
     ImGui::SameLine();
 
